@@ -1,0 +1,11 @@
+h1 Register A User
+
+form(method="post", action="/register")
+
+	include ../partials/user_info
+	
+	include ../partials/permissions
+	
+	include ../partials/user_status
+	
+	input(type="submit", value="Save")

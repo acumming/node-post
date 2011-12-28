@@ -1,0 +1,14 @@
+{
+    "name": "application-name"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+  	"connect-mongo": ">= 0.1.6"
+    , "express": "2.5.2"
+    , "less": ">= 0.0.1"
+    , "jade": ">= 0.0.1"
+    , "MD5": ">= 0.0.0"
+    , "mongodb": ">= 0.9.7-2-5"
+    , "mongoskin": ">= 0.2.2"
+  }
+}
