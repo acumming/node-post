@@ -55,7 +55,7 @@ exports.logout = function(req,res) {
 
 	delete req.session.auth;
 	
-	req.flash("massage", "You have been logged out.");
+	req.flash("message", "You have been logged out.");
 	
 	res.redirect("/login");
 };	
