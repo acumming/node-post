@@ -24,7 +24,8 @@ db.bind("users", {
 		}
 		
 		this.insert({
-			"email": postdata.email
+			"discipline": postdata.discipline
+			, "email": postdata.email
 			, "first_name": postdata.first_name
 			, "last_name": postdata.last_name
 			, "password": md5(postdata.password)

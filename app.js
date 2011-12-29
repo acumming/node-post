@@ -8,6 +8,9 @@ var config = require("./config/app").config
 	, express = require('express')
 	, expressValidator = require('express-validator')
 	, MongoStore = require("connect-mongo")
+	, db = require("./drivers/mongo")
+	, permissions = require("./middleware/permissions")
+	, login = require("./middleware/login")
 ;
 
 var app = module.exports = express.createServer();
@@ -47,6 +50,12 @@ app.configure('production', function(){
 	app.use(express.errorHandler());
 });
 
+// Static helpers
+app.helpers({
+	
+});
+
+
 // Dynamic helpers
 app.dynamicHelpers({
 	session: function(req, res){
@@ -58,14 +67,20 @@ app.dynamicHelpers({
 });
 
 // Routes
+// Middleware stacks
+
 
 // Auth routing
 app.get('/', require("./routes/index").index);
+
 app.get('/login', require("./routes/auth/index").login_page);
 app.post('/login', require("./routes/auth/index").login);
-app.get('/logout', require("./routes/auth/index").logout);
-app.get('/register', require("./routes/auth/register").registration_page);
-app.post('/register', require("./routes/auth/register").register);
 
+app.get('/logout', require("./routes/auth/index").logout);
+
+app.get('/register', permissions.checkLoginAndPermission("register"), require("./routes/auth/register").registration_page);
+app.post('/register', permissions.checkLoginAndPermission("register"), require("./routes/auth/register").register);
+
+// Start application
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
