@@ -5,10 +5,13 @@
   , "dependencies": {
   	"connect-mongo": ">= 0.1.6"
     , "express": "2.5.2"
+    , "express-validator": ">=0.1.1"
     , "less": ">= 0.0.1"
     , "jade": ">= 0.0.1"
     , "MD5": ">= 0.0.0"
     , "mongodb": ">= 0.9.7-2-5"
     , "mongoskin": ">= 0.2.2"
+    , "undescore": ">= 1.2.3"
+    , "validator": ">= 0.3.7"
   }
 }
