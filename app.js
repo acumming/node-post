@@ -72,15 +72,15 @@ app.dynamicHelpers({
 
 
 // Auth routing
-app.get('/', require("./routes/index").index);
+app.get('/', permissions.checkLogin(), require("./routes/index").index);
 
 app.get('/login', require("./routes/auth/index").login_page);
 app.post('/login', require("./routes/auth/index").login);
 
 app.get('/logout', require("./routes/auth/index").logout);
 
-app.get('/register', permissions.checkLoginAndPermission("register"), require("./routes/auth/register").registration_page);
-app.post('/register', permissions.checkLoginAndPermission("register"), require("./routes/auth/register").register);
+app.get('/register', permissions.checkLoginAndPermission("register_users"), require("./routes/auth/register").registration_page);
+app.post('/register', permissions.checkLoginAndPermission("register_users"), require("./routes/auth/register").register);
 
 // Start application
 app.listen(3000);

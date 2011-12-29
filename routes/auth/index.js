@@ -26,7 +26,6 @@ exports.login = function(req, res) {
 		res.redirect("/login");
 	} else {
 		
-		// Database insert
 		userModel.checkLogin(req.body, function(err, user) {
 			if(user === null) {
 				req.flash("error", "Your email or password is incorrect.");

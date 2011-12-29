@@ -36,10 +36,10 @@ db.bind("users", {
 			"safe": true
 		}, fn);
 	},
-	"checkLogin": function(postdata, fn) {
+	"checkLogin": function(data, fn) {
 		this.findOne({
-			"email": postdata.email
-			, "password": md5(postdata.password)
+			"email": data.email
+			, "password": md5(data.password)
 		}, fn);
 	}
 });
