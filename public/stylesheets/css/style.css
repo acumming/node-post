@@ -30,4 +30,5 @@ body>footer{margin-bottom:3em;margin-top:3em;}
 .session{font-size:.8em;}
 fieldset{border:1px solid gray;padding:1em;}
 legend{padding:.5em;}
-input[type=password],input[type=submit],input[type=text]{display:block;margin:.3em 0;}
+input[type=password],input[type=submit],input[type=text],textarea{display:block;margin:.3em 0;}
+input[type=submit]{font-family:Helvetica,sans-serif;}
