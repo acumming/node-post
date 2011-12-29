@@ -9,7 +9,6 @@ exports.register = function(req, res) {
 	var errors = [];
 	
 	req.onValidationError(function(msg) {
-		console.log('Validation error: ' + msg);
 		errors.push(msg);
 		return this;
 	});	

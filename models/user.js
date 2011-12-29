@@ -35,6 +35,12 @@ db.bind("users", {
 		}, {
 			"safe": true
 		}, fn);
+	},
+	"checkLogin": function(postdata, fn) {
+		this.findOne({
+			"email": postdata.email
+			, "password": md5(postdata.password)
+		}, fn);
 	}
 });
 

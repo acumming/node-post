@@ -1,5 +1,14 @@
 footer
 	section.session
+	
+		- if (session.auth)
+			h2 Auth session
+			ul
+			for value,key in session.auth
+				li
+					#{key} :: #{value}
+		
+		h2 Session vars
 		ul
 		for value,key in session
 			li

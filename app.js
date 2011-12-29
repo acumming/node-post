@@ -29,6 +29,7 @@ app.configure(function(){
 	app.use(express.cookieParser());
 	app.use(express.session({
 		secret: config.salt
+		, maxAge : new Date(Date.now() + 3600000) //1 Hour
 		, store: new MongoStore({
 			"db": db_config.db_name
 			, "host": db_config.db_host
