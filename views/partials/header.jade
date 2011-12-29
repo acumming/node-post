@@ -9,9 +9,17 @@ header
 				a(href="/logout") Log out
 			li
 				a(href="/register") Register a user
-	section#flash
-		h1 Flashdata
-		ul
-		for value,key in flash
-			li
-				#{key} :: #{value}				
+	- if (typeof flash != "undefined")
+		section#flash
+			h1 Flashdata
+			- if (typeof flash.error != "undefined")
+				ul.error
+					each error in flash.error
+						li
+							#{error}				
+	
+			- if (typeof flash.message != "undefined")
+				ul.message
+					each message in flash.message
+						li
+							#{message}				
