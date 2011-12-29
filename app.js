@@ -4,18 +4,20 @@
  */
 
 var config = require("./config/app").config
+	, db = require("./drivers/mongo")
 	, db_config = require("./config/db").config
 	, express = require('express')
 	, expressValidator = require('express-validator')
 	, MongoStore = require("connect-mongo")
-	, db = require("./drivers/mongo")
+	
+	// Middleware
+	, data = require("./middleware/data")
 	, permissions = require("./middleware/permissions")
-	, login = require("./middleware/login")
 ;
 
 var app = module.exports = express.createServer();
 
-// Configuration
+// ! Configuration
 
 app.configure(function(){
 	app.set('views', __dirname + '/views');
@@ -29,7 +31,7 @@ app.configure(function(){
 	app.use(express.cookieParser());
 	app.use(express.session({
 		secret: config.salt
-		, maxAge : new Date(Date.now() + 3600000) //1 Hour
+		, maxAge : new Date(Date.now() + 7200000) // 2 Hours
 		, store: new MongoStore({
 			"db": db_config.db_name
 			, "host": db_config.db_host
@@ -40,6 +42,7 @@ app.configure(function(){
 	app.use(express.static(__dirname + '/public'));
 });
 
+// ! Environments
 app.configure('development', function(){
 	app.use(express.errorHandler({
 		dumpExceptions: true,
@@ -51,13 +54,13 @@ app.configure('production', function(){
 	app.use(express.errorHandler());
 });
 
-// Static helpers
+// ! Static helpers
 app.helpers({
 	
 });
 
 
-// Dynamic helpers
+// ! Dynamic helpers
 app.dynamicHelpers({
 	session: function(req, res){
 		return req.session;
@@ -67,12 +70,15 @@ app.dynamicHelpers({
 	}
 });
 
-// Routes
+// ! Routes
 // Middleware stacks
 
+// ! Post routing
 
-// Auth routing
-app.get('/', permissions.checkLogin(), require("./routes/index").index);
+app.get("/", permissions.checkLogin(), data.getData(), require("./routes/index").index);
+app.post("/", permissions.checkLoginAndPermission("post"), require("./routes/post/post").post);
+
+// ! Auth routing
 
 app.get('/login', require("./routes/auth/index").login_page);
 app.post('/login', require("./routes/auth/index").login);
@@ -82,6 +88,8 @@ app.get('/logout', require("./routes/auth/index").logout);
 app.get('/register', permissions.checkLoginAndPermission("register_users"), require("./routes/auth/register").registration_page);
 app.post('/register', permissions.checkLoginAndPermission("register_users"), require("./routes/auth/register").register);
 
-// Start application
+
+
+// ! Start application
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
