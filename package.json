@@ -5,6 +5,7 @@
   , "dependencies": {
   	"connect-mongo": ">= 0.1.6"
     , "express": "2.5.2"
+    , "express-resource": ">= 0.2.4"
     , "express-validator": ">=0.1.1"
     , "less": ">= 0.0.1"
     , "jade": ">= 0.0.1"
