@@ -9,10 +9,7 @@ var config = require("./config/app").config
 	, express = require('express')
 	, expressValidator = require('express-validator')
 	, MongoStore = require("connect-mongo")
-	
-	// Middleware
-	, data = require("./middleware/data")
-	, permissions = require("./middleware/permissions")
+	, Resource = require("express-resource")
 ;
 
 var app = module.exports = express.createServer();
@@ -71,47 +68,7 @@ app.dynamicHelpers({
 });
 
 // ! Routes
-// Middleware stacks
-
-// ! Post routing
-
-app.get(
-	"/"
-	, permissions.checkLogin()
-	, data.getDisciplines()
-	, require("./routes/index").index
-);
-
-app.post(
-	"/"
-	, permissions.checkLoginAndPermission("post")
-	, require("./routes/post/post").post
-);
-
-// ! Auth routing
-
-app.get('/login', require("./routes/auth/index").login_page);
-app.post('/login', require("./routes/auth/index").login);
-
-app.get('/logout', require("./routes/auth/index").logout);
-
-app.get(
-	'/register'
-	, permissions.checkLoginAndPermission("register_users")
-	, require("./routes/auth/register").registration_page
-);
-app.post(
-	'/register'
-	, permissions.checkLoginAndPermission("register_users")
-	, require("./routes/auth/register").register
-);
-
-app.get(
-	"/staff"
-	, permissions.checkLoginAndPermission("view_staff")
-	, data.getDisciplines()
-	, require("./routes/directory/index").directory
-);
+require('./routes')(app);
 
 // ! Start application
 app.listen(3000);
