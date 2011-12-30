@@ -12,7 +12,7 @@
     , "MD5": ">= 0.0.0"
     , "mongodb": ">= 0.9.7-2-5"
     , "mongoskin": ">= 0.2.2"
-    , "undescore": ">= 1.2.3"
+    , "underscore": ">= 1.2.3"
     , "validator": ">= 0.3.7"
   }
 }
