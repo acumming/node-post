@@ -75,8 +75,18 @@ app.dynamicHelpers({
 
 // ! Post routing
 
-app.get("/", permissions.checkLogin(), data.getData(), require("./routes/index").index);
-app.post("/", permissions.checkLoginAndPermission("post"), require("./routes/post/post").post);
+app.get(
+	"/"
+	, permissions.checkLogin()
+	, data.getDisciplines()
+	, require("./routes/index").index
+);
+
+app.post(
+	"/"
+	, permissions.checkLoginAndPermission("post")
+	, require("./routes/post/post").post
+);
 
 // ! Auth routing
 
@@ -85,10 +95,23 @@ app.post('/login', require("./routes/auth/index").login);
 
 app.get('/logout', require("./routes/auth/index").logout);
 
-app.get('/register', permissions.checkLoginAndPermission("register_users"), require("./routes/auth/register").registration_page);
-app.post('/register', permissions.checkLoginAndPermission("register_users"), require("./routes/auth/register").register);
+app.get(
+	'/register'
+	, permissions.checkLoginAndPermission("register_users")
+	, require("./routes/auth/register").registration_page
+);
+app.post(
+	'/register'
+	, permissions.checkLoginAndPermission("register_users")
+	, require("./routes/auth/register").register
+);
 
-
+app.get(
+	"/staff"
+	, permissions.checkLoginAndPermission("view_staff")
+	, data.getDisciplines()
+	, require("./routes/directory/index").directory
+);
 
 // ! Start application
 app.listen(3000);

@@ -1,7 +1,10 @@
-exports.getData = function() {
+var disciplineModel = require("../models/discipline").model;
 
+exports.getDisciplines = function() {
 	return function(req, res, next) {
-		console.log("get data");
-		next();
+		disciplineModel.getAllDisciplines(function(err, documents) {
+			req.disciplines = documents;
+			next();
+		});
 	}
 }

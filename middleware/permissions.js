@@ -1,7 +1,7 @@
 var _u = require("underscore");
 
 var notPermitted = "You do not have permission to do that.";
-var unauthorized = "Unauthorized.";
+var unauthorized = "You must be logged in.";
 
 function checkLogin(session) {
 	if(typeof session.auth === "undefined") {
@@ -28,7 +28,8 @@ exports.checkLogin = function() {
 		if(checkLogin(req.session)) {
 			next();
 		} else {
-			next(new Error(unauthorized));
+			req.flash("error", unauthorized);
+			res.redirect("/login");
 		}
 	};
 };
@@ -38,7 +39,8 @@ exports.checkPermission = function(permission) {
 		if(checkPermission(permission, req.session)) {
 			next();
 		} else {
-			next(new Error(notPermitted));
+			req.flash("error", notPermitted);
+			res.redirect("home");
 		}
 	};
 };
@@ -49,10 +51,12 @@ exports.checkLoginAndPermission = function(permission) {
 			if(checkPermission(permission, req.session)) {
 				next();
 			} else {
-				next(new Error(notPermitted));
+				req.flash("error", notPermitted);
+				res.redirect("home");
 			}
 		} else {
-			next(new Error(unauthorized));
+			req.flash("error", unauthorized);
+			res.redirect("/login");
 		}
 	};
 };
