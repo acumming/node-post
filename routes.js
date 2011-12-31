@@ -5,6 +5,28 @@ var
 ;
 
 module.exports = function(app) {
+
+	// ! Auth routing
+	// Must come before the top-level resource route call.
+	
+	app.get('/login', require("./routes/auth/index").login_page);
+	app.post('/login', require("./routes/auth/index").login);
+	
+	app.get('/logout', require("./routes/auth/index").logout);
+	
+	app.get(
+		'/register'
+		, permissions.checkLoginAndPermission("register_users")
+		, data.getDisciplines()
+		, data.getTeams()
+		, require("./routes/auth/register").registration_page
+	);
+	app.post(
+		'/register'
+		, permissions.checkLoginAndPermission("register_users")
+		, require("./routes/auth/register").register
+	);
+	
 	// ! Post / top-level routing
 	
 	app.all(
@@ -35,26 +57,6 @@ module.exports = function(app) {
 		, function(req, res, next) { next(); }
 	);
 	
-	app.resource(require("./routes/post/post"));
-	
-	// ! Auth routing
-	
-	app.get('/login', require("./routes/auth/index").login_page);
-	app.post('/login', require("./routes/auth/index").login);
-	
-	app.get('/logout', require("./routes/auth/index").logout);
-	
-	app.get(
-		'/register'
-		, permissions.checkLoginAndPermission("register_users")
-		, require("./routes/auth/register").registration_page
-	);
-	app.post(
-		'/register'
-		, permissions.checkLoginAndPermission("register_users")
-		, require("./routes/auth/register").register
-	);
-	
 	// Staff routing
 	app.get(
 		"/staff"
@@ -65,4 +67,8 @@ module.exports = function(app) {
 	
 	app.resource("staff", require("./routes/staff/staff"));
 
+
+	// ! Top-level resource routing
+	// Must come last
+	app.resource(require("./routes/post/post"));
 };
