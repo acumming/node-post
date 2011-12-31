@@ -1,16 +1,26 @@
 header
 	nav#main-nav
 		ul
-			li
-				a(href="/") Home
-			li
-				a(href="/login") Log in
-			li
+			- if (session.auth)
+				li
+					a(href="/") Home
+				li
+					a(href="/register") Register a user
+				li
+					a(href="/directory") Staff Directory
+	
+			- else
+				li
+					a(href="/login") Log in
+	
+	- if (session.auth)
+		section.user-info
+			section.logged-in-as
+				| Logged in as #{session.auth.first_name}&nbsp#{session.auth.last_name}
+				a(href="/me") My Profile
+				| &nbsp;
 				a(href="/logout") Log out
-			li
-				a(href="/register") Register a user
-			li
-				a(href="/staff") Staff Directory
+				
 
 	- if (typeof flash != "undefined")
 		section#flash

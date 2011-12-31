@@ -30,8 +30,10 @@ body>footer{margin-bottom:3em;margin-top:3em;}
 #flash .error,#flash .message{color:white;padding:1em;}
 #flash .error{background-color:red;}
 #flash .message{background-color:green;}
+.user-info{float:right;font-size:.8em;position:relative;}
 .session{font-size:.8em;}
 fieldset{border:1px solid gray;padding:1em;}
 legend{padding:.5em;}
 input[type=password],input[type=submit],input[type=text],textarea{display:block;margin:.3em 0;}
 input[type=submit]{font-family:Helvetica,sans-serif;}
+#users .user{border-bottom:1px solid gray;padding:10px 0;}#users .user .teams h1,#users .user .disciplines h1{font-size:1em;}

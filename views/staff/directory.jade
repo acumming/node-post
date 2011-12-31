@@ -1,1 +1,35 @@
 h1 Staff Directory
+
+ul#users
+	each user in users
+		li.user
+			section.image
+				img(src="#{user.gravatar.url}")
+			section.name
+				span.first_name #{user.first_name}
+				&nbsp;
+				span.last_name #{user.last_name}
+			section.email
+				#{user.email}
+			
+			- if (typeof user.teams != "undefined")
+				section.teams
+					h1 Teams
+					ul
+						each team in user.teams
+							each t in teams
+								- if (t.slug == team)
+									li
+										#{t.name}
+
+			- if (typeof user.disciplines != "undefined")
+				section.disciplines
+					h1 Disciplines
+					ul
+						each discipline in user.disciplines
+							each d in disciplines
+								- if (d.slug == discipline)
+									li
+										#{d.name}
+		
+		
