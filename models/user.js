@@ -14,15 +14,27 @@ function pushKey(arr) {
 	return ret;
 }
 
-db.collection("users").ensureIndex({"email": 1});
+db.collection("users").ensureIndex({
+	"email": 1
+});
 
 db.bind("users", {
+
+	// ! Find one
 	"findByEmail": function(email, fn) {
 		this.findOne({
 			"email": email
 		}, fn);
-	},
-	"insertUser": function(postdata, fn) {
+	}
+	
+	, "directory": function(sort, fn) {
+
+		this.find({}, {}).sort(sort).toArray(fn);
+		
+	}
+	
+	// ! Insert
+	, "insertUser": function(postdata, fn) {
 
 		var permissions = [];
 		if(typeof postdata.permissions !== "undefined") {
