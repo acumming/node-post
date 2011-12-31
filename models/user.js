@@ -2,6 +2,18 @@ var db = require("../drivers/mongo").db;
 var md5 = require("MD5");
 var _u = require("underscore");
 
+// The form inputs give us checkbox arrays in the format
+// { "permission": "on" }
+// and we want an array of names *only*
+// [ "permission_1", "permission_2" ]
+function pushKey(arr) {
+	var ret = [];
+	_u.forEach(arr, function(value, key) {
+		ret.push(key);
+	});
+	return ret;
+}
+
 db.collection("users").ensureIndex({"email": 1});
 
 db.bind("users", {
@@ -12,26 +24,28 @@ db.bind("users", {
 	},
 	"insertUser": function(postdata, fn) {
 
-		// The form inputs give us permissions in the format
-		// { "permission": "on" }
-		// and we want an array of permission names *only*
-		// [ "permission_1", "permission_2" ]
 		var permissions = [];
 		if(typeof postdata.permissions !== "undefined") {
-			_u.forEach(postdata.permissions, function(value, key) {
-				permissions.push(key);
-			});
+			permissions = pushKey(postdata.permissions);
+		}
+		var disciplines = [];
+		if(typeof postdata.disciplines !== "undefined") {
+			disciplines = pushKey(postdata.disciplines);
+		}
+		var teams = [];
+		if(typeof postdata.teams !== "undefined") {
+			teams = pushKey(postdata.teams);
 		}
 		
 		this.insert({
-			"discipline": postdata.discipline
+			"disciplines": disciplines
 			, "email": postdata.email
 			, "first_name": postdata.first_name
 			, "last_name": postdata.last_name
 			, "password": md5(postdata.password)
 			, "permissions": permissions
 			, "status": postdata.user_status
-			, "team": postdata.team
+			, "teams": teams
 		}, {
 			"safe": true
 		}, fn);
