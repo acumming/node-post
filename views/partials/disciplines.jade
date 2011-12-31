@@ -1,0 +1,7 @@
+fieldset
+	
+	legend Disciplines
+	
+	each discipline in disciplines
+		label(for="disciplines[#{discipline.slug}]") #{discipline.name}
+		input(type="checkbox", name="disciplines[#{discipline.slug}]", value="disciplines[#{discipline.slug}]")

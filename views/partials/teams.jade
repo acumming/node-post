@@ -1,0 +1,7 @@
+fieldset
+	
+	legend Teams
+	
+	each team in teams
+		label(for="teams[#{team.slug}]") #{team.name}
+		input(type="checkbox", name="teams[#{team.slug}]", value="teams[#{team.slug}]")
