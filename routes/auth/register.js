@@ -32,12 +32,15 @@ exports.register = function(req, res) {
 				userModel.insertUser(req.body, function(err, user) {
 					if(!err) {
 						req.flash("message", "User registered.");
-						res.redirect("/staff");
+						res.redirect("/directory");
 					} else {
 						req.flash("error", "Error registering user.");
 						res.redirect("/register");
 					}
 				});
+			} else {
+				req.flash("error", "User already exists.");
+				res.redirect("/register");
 			}
 		});
 	}
