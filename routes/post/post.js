@@ -17,9 +17,9 @@ exports.edit = function(req, res){
 };
 
 exports.update = function(req, res){
-  res.send('update forum ');
+  res.send('update post ');
 };
 
 exports.destroy = function(req, res){
-  res.send('destroy forum ');
+  res.send('destroy post');
 };
