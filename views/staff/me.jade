@@ -1,1 +1,34 @@
 h1 My Profile
+section#user
+	section.actions
+		nav
+			ul
+				li
+					a(href="/me/edit") Edit
+
+	section.gravatar
+		img(src="#{user.gravatar.url}")
+
+	section.email
+		#{user.email}
+
+	section.name
+		#{user.first_name}&nbsp;#{user.last_name}
+
+	section.teams
+		h1 Teams
+		ul
+			each team in user.teams
+				each t in teams
+					- if (t.slug == team)
+						li
+							| #{t.name}
+
+	section.disciplines
+		h1 Disciplines
+		ul
+			each discipline in user.disciplines
+				each d in disciplines
+					- if (d.slug == discipline)
+						li
+							| #{d.name}
