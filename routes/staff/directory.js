@@ -1,5 +1,5 @@
 var userModel = require("../../models/user").model;
-var gravatar = require("../../helpers/gravatar")
+var gravatar = require("../../helpers/gravatar");
 var md5 = require("MD5");
 var _u = require("underscore");
 
