@@ -1,8 +1,18 @@
 var
 	// Middleware
 	data = require("./middleware/data")
+	, user = require("./middleware/user")
 	, permissions = require("./middleware/permissions")
 ;
+
+var getTeamsAndDisciplines = [
+	data.getDisciplines()
+	, data.getTeams()
+];
+
+var getUser = [
+	user.getUser()
+]
 
 module.exports = function(app) {
 
@@ -17,8 +27,7 @@ module.exports = function(app) {
 	app.get(
 		'/register'
 		, permissions.checkLoginAndPermission("register_users")
-		, data.getDisciplines()
-		, data.getTeams()
+		, getTeamsAndDisciplines
 		, require("./routes/auth/register").registration_page
 	);
 	app.post(
@@ -32,7 +41,8 @@ module.exports = function(app) {
 	app.all(
 		"/"
 		, permissions.checkLogin()
-		, data.getDisciplines()
+		, getUser
+		, getTeamsAndDisciplines
 		, function(req, res, next) { next(); }
 	);
 	
@@ -57,36 +67,41 @@ module.exports = function(app) {
 		, function(req, res, next) { next(); }
 	);
 	
-	// Staff routing
+	// Lockdown all /post routes
+	app.all(
+		"/post*"
+		, permissions.checkLoginAndPermission("post")
+		, function(req, res, next) { next(); }
+	);
+
+	app.resource("post", require("./routes/post/post"));
+	
+	// ! Staff routing
 	app.all(
 		"/me"
 		, permissions.checkLogin()
-		, data.getDisciplines()
-		, data.getTeams()
+		, getTeamsAndDisciplines
 		, require("./routes/staff/staff").me
 	);
 
 	app.all(
 		"/me/edit"
 		, permissions.checkLoginAndPermission("edit_self")
-		, data.getDisciplines()
-		, data.getTeams()
+		, getTeamsAndDisciplines
 		, require("./routes/staff/staff").edit_me
 	);
 
 	app.all(
 		"/directory/:sort?"
 		, permissions.checkLoginAndPermission("view_staff")
-		, data.getDisciplines()
-		, data.getTeams()
+		, getTeamsAndDisciplines
 		, require("./routes/staff/directory").directory
 	);
 
 	app.all(
 		"/staff/:id/edit"
 		, permissions.checkLoginAndPermission("edit_staff")
-		, data.getDisciplines()
-		, data.getTeams()
+		, getTeamsAndDisciplines
 		, function(req, res, next) { next(); }
 	);
 	
