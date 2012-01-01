@@ -20,7 +20,7 @@ app.configure(function(){
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
 	app.set('view options', {
-		"pretty": true
+//		"pretty": true
 	});
 	app.use(express.bodyParser());
 	app.use(expressValidator);
